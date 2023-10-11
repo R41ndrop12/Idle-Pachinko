@@ -55,10 +55,19 @@ public class BallSpawn : MonoBehaviour
                 );
                 ball.GetComponent<TrailRenderer>().colorGradient = gradient;
             }
-            for (float k = 0; k < b.rate; k += 0.01f)
+            if (b.autoDrop && b.rate <= 0.2f)
             {
-                progressBars[i].fillAmount = k / b.rate;
-                yield return new WaitForSeconds(0.01f);
+                progressBars[i].fillAmount = 1;
+                yield return new WaitForSeconds(b.rate);
+            }
+            else
+            {
+                for (float k = 0; k < b.rate; k += 0.01f)
+                {
+                    progressBars[i].fillAmount = k / b.rate;
+                    yield return new WaitForSeconds(0.01f);
+                }
+                progressBars[i].fillAmount = 1;
             }
             b.spawnBall = true;
             if (b.autoDrop)
