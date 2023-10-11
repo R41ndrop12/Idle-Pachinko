@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d24734a303d0bdf4faa1d0a39191bb3a, type: 3}
+  m_Name: Ten Dollar
+  m_EditorClassIdentifier: 
+  baseRate: 5
+  rateReduction: 0.05
+  baseRateCost: 150
+  rateCostMultiplier: 1.15
+  baseRatePurchaseThreshhold: 10
+  rateThreshholdOffset: 5
+  ratePurchaseMultiplier: 0.9
+  rateThresholdMultiplier: 1.5
+  baseAmountDroppedCost: 1250
+  amountDroppedMultiplier: 2.5
+  baseAutoDropCost: 60000
+  money: 10
+  ball: {fileID: 8945446414016878203, guid: 08ba5649bc8e7fd4796c80587467911a, type: 3}
+  ballColor: {r: 0.05490196, g: 1, b: 0, a: 1}
+  rate: 5
+  rateUpgrades: 0
+  rateCost: 0
+  ratePurchaseThreshhold: 10
+  amountDropped: 1
+  amountDroppedCost: 50
+  autoDrop: 0
+  spawnBall: 1
+  autoDropCost: 1000
