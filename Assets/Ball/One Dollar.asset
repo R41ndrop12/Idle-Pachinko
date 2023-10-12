@@ -25,13 +25,13 @@ MonoBehaviour:
   baseAutoDropCost: 1000
   money: 1
   ball: {fileID: 8945446414016878203, guid: 08ba5649bc8e7fd4796c80587467911a, type: 3}
-  ballColor: {r: 1, g: 1, b: 1, a: 1}
-  rate: 0.05
-  rateUpgrades: 44
-  rateCost: 1405.4836
-  ratePurchaseThreshhold: 50.625
-  amountDropped: 9
-  amountDroppedCost: 38146.973
-  autoDrop: 1
-  spawnBall: 0
+  ballColor: {r: 0, g: 0.74598193, b: 1, a: 1}
+  rate: 3
+  rateUpgrades: 0
+  rateCost: 3
+  ratePurchaseThreshhold: 10
+  amountDropped: 1
+  amountDroppedCost: 25
+  autoDrop: 0
+  spawnBall: 1
   autoDropCost: 1000
