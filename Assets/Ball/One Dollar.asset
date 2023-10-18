@@ -23,6 +23,7 @@ MonoBehaviour:
   baseAmountDroppedCost: 25
   amountDroppedMultiplier: 2.5
   baseAutoDropCost: 1000
+  baseSpawnBall: 1
   money: 1
   ball: {fileID: 8945446414016878203, guid: 08ba5649bc8e7fd4796c80587467911a, type: 3}
   ballColor: {r: 0, g: 0.74598193, b: 1, a: 1}

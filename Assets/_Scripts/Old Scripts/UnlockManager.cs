@@ -7,6 +7,7 @@ public class UnlockManager : MonoBehaviour
     public GameObject gm;
     public GameObject[] gms;
     private MoneyManager moneyManager;
+    public Ball ball;
 
     private void Start()
     {
@@ -24,6 +25,8 @@ public class UnlockManager : MonoBehaviour
             }
             if(gm != null)
                 gm.SetActive(false);
+            if(ball != null)
+                ball.enableBall();
         }
     }
 }

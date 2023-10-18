@@ -37,6 +37,8 @@ public class Ball : ScriptableObject
     
     [SerializeField]
     private float baseAutoDropCost = 1000f;
+    [SerializeField]
+    private bool baseSpawnBall = false;
 
     public int money = 1;
 
@@ -69,13 +71,16 @@ public class Ball : ScriptableObject
         rateCost = baseRateCost;
         amountDropped = 1;
         autoDrop = false;
-        spawnBall = true;
+        spawnBall = baseSpawnBall;
         amountDroppedCost = baseAmountDroppedCost;
         ratePurchaseThreshhold = baseRatePurchaseThreshhold;
         autoDropCost = baseAutoDropCost;
     }
 
-
+    public void enableBall()
+    {
+        spawnBall = true;
+    }
 
 
 

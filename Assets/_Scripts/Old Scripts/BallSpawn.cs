@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using TMPro.Examples;
@@ -16,12 +17,22 @@ public class BallSpawn : MonoBehaviour
     void Start()
     {
         balls = FindObjectOfType<UpgradeManager>().balls;
+        balls[0].spawnBall = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            for(int i = 0; i < balls.Length; i++)
+            {
+                if (balls[i].spawnBall)
+                {
+                    SpawnBallWrapper(i);
+                }
+            }
+        }
     }
 
     public void SpawnBallWrapper(int i)
