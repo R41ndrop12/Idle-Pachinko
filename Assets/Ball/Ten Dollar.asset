@@ -13,25 +13,26 @@ MonoBehaviour:
   m_Name: Ten Dollar
   m_EditorClassIdentifier: 
   baseRate: 5
-  rateReduction: 0.05
-  baseRateCost: 150
+  rateReduction: 0.1
+  baseRateCost: 100
   rateCostMultiplier: 1.15
   baseRatePurchaseThreshhold: 10
   rateThreshholdOffset: 5
   ratePurchaseMultiplier: 0.9
   rateThresholdMultiplier: 1.5
-  baseAmountDroppedCost: 1250
+  baseAmountDroppedCost: 1000
   amountDroppedMultiplier: 2.5
-  baseAutoDropCost: 60000
+  baseAutoDropCost: 10000
+  baseSpawnBall: 0
   money: 10
   ball: {fileID: 8945446414016878203, guid: 08ba5649bc8e7fd4796c80587467911a, type: 3}
   ballColor: {r: 0.05490196, g: 1, b: 0, a: 1}
   rate: 5
   rateUpgrades: 0
-  rateCost: 0
+  rateCost: 150
   ratePurchaseThreshhold: 10
   amountDropped: 1
-  amountDroppedCost: 50
+  amountDroppedCost: 1250
   autoDrop: 0
-  spawnBall: 1
-  autoDropCost: 1000
+  spawnBall: 0
+  autoDropCost: 60000
