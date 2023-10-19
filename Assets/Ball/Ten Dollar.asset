@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ten Dollar
   m_EditorClassIdentifier: 
   baseRate: 5
-  rateReduction: 0.1
+  rateReduction: 0.15
   baseRateCost: 100
   rateCostMultiplier: 1.15
   baseRatePurchaseThreshhold: 10
@@ -21,7 +21,7 @@ MonoBehaviour:
   ratePurchaseMultiplier: 0.9
   rateThresholdMultiplier: 1.5
   baseAmountDroppedCost: 1000
-  amountDroppedMultiplier: 2.5
+  amountDroppedMultiplier: 2.15
   baseAutoDropCost: 10000
   baseSpawnBall: 0
   money: 10

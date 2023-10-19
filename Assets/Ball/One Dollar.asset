@@ -15,7 +15,7 @@ MonoBehaviour:
   baseRate: 3
   rateReduction: 0.05
   baseRateCost: 3
-  rateCostMultiplier: 1.15
+  rateCostMultiplier: 1.1
   baseRatePurchaseThreshhold: 10
   rateThreshholdOffset: 5
   ratePurchaseMultiplier: 0.9

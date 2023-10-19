@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Hundred Dollar
   m_EditorClassIdentifier: 
   baseRate: 7.5
-  rateReduction: 0.2
+  rateReduction: 0.25
   baseRateCost: 1000
   rateCostMultiplier: 1.15
   baseRatePurchaseThreshhold: 10
