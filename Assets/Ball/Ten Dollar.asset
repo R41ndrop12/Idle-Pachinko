@@ -29,10 +29,10 @@ MonoBehaviour:
   ballColor: {r: 0.05490196, g: 1, b: 0, a: 1}
   rate: 5
   rateUpgrades: 0
-  rateCost: 150
+  rateCost: 100
   ratePurchaseThreshhold: 10
   amountDropped: 1
-  amountDroppedCost: 1250
+  amountDroppedCost: 1000
   autoDrop: 0
   spawnBall: 0
-  autoDropCost: 60000
+  autoDropCost: 10000

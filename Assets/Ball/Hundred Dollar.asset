@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Hundred Dollar
   m_EditorClassIdentifier: 
   baseRate: 7.5
-  rateReduction: 0.15
+  rateReduction: 0.2
   baseRateCost: 1000
   rateCostMultiplier: 1.15
   baseRatePurchaseThreshhold: 10
@@ -21,7 +21,7 @@ MonoBehaviour:
   ratePurchaseMultiplier: 0.9
   rateThresholdMultiplier: 1.5
   baseAmountDroppedCost: 10000
-  amountDroppedMultiplier: 3.5
+  amountDroppedMultiplier: 1.75
   baseAutoDropCost: 100000
   baseSpawnBall: 0
   money: 100
@@ -29,7 +29,7 @@ MonoBehaviour:
   ballColor: {r: 1, g: 0.8816934, b: 0, a: 1}
   rate: 7.5
   rateUpgrades: 0
-  rateCost: 2500
+  rateCost: 1000
   ratePurchaseThreshhold: 10
   amountDropped: 1
   amountDroppedCost: 10000
