@@ -7,42 +7,23 @@ using UnityEngine.UI;
 
 public class BallSpawn : MonoBehaviour
 {
-    
-    public Ball[] balls;
     public Transform spawnPoint;
     public Vector2 speedRange = new Vector2(2f, 10f);
     public float directionRange = 0.5f;
-    public Image[] progressBars;
     // Start is called before the first frame update
     void Start()
     {
-        balls = FindObjectOfType<UpgradeManager>().balls;
-        balls[0].spawnBall = true;
+        UpgradeManager.SpawnBall += SpawnBallWrapper;
     }
 
-    // Update is called once per frame
-    void Update()
+
+    public void SpawnBallWrapper(Ball b)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            for(int i = 0; i < balls.Length; i++)
-            {
-                if (balls[i].spawnBall)
-                {
-                    SpawnBallWrapper(i);
-                }
-            }
-        }
+        StartCoroutine(SpawnBall(b));
     }
 
-    public void SpawnBallWrapper(int i)
+    IEnumerator SpawnBall(Ball b)
     {
-        StartCoroutine(SpawnBall(i));
-    }
-
-    IEnumerator SpawnBall(int i)
-    {
-        Ball b = balls[i];
         if (b.spawnBall)
         {
             b.spawnBall = false;
@@ -57,33 +38,27 @@ public class BallSpawn : MonoBehaviour
                     directionModifier = Random.Range(-directionRange, directionRange);
                 }
                 rb.AddRelativeForce(new Vector2(directionModifier, 1f) * speed);
-                ball.GetComponent<BallManager>().money = b.money;
+                ball.GetComponent<BallManager>().ball = b;
                 ball.GetComponent<SpriteRenderer>().color = (b.ballColor);
-                Gradient gradient = new Gradient();
-                gradient.SetKeys(
-                    new GradientColorKey[] { new GradientColorKey(b.ballColor, 0.0f), new GradientColorKey(b.ballColor, 1.0f) },
-                    new GradientAlphaKey[] { new GradientAlphaKey(5, 0.0f), new GradientAlphaKey(0, 1.0f) }
-                );
-                ball.GetComponent<TrailRenderer>().colorGradient = gradient;
             }
-            if (b.autoDrop && b.rate <= 0.2f)
+            if (b.autoDrop && b.cooldown <= 0.2f)
             {
-                progressBars[i].fillAmount = 1;
-                yield return new WaitForSeconds(b.rate);
+                b.progressBar.fillAmount = 1;
+                yield return new WaitForSeconds(b.cooldown);
             }
             else
             {
-                for (float k = 0; k < b.rate; k += 0.01f)
+                for (float k = 0; k < b.cooldown; k += 0.02f)
                 {
-                    progressBars[i].fillAmount = k / b.rate;
-                    yield return new WaitForSeconds(0.01f);
+                    b.progressBar.fillAmount = k / b.cooldown;
+                    yield return new WaitForSeconds(0.02f);
                 }
-                progressBars[i].fillAmount = 1;
+                b.progressBar.fillAmount = 1;
             }
             b.spawnBall = true;
             if (b.autoDrop)
             {
-                StartCoroutine(SpawnBall(i));
+                StartCoroutine(SpawnBall(b));
             }
         }
     }

@@ -9,7 +9,7 @@ namespace Utility
     {
         public static void displayValue(TextMeshProUGUI txt, float val)
         {
-            txt.SetText("" + convertNum(roundValue(val)));
+            txt.SetText("" + convertNum(val));
         }
         public static void displayValue(TextMeshProUGUI txt, string text)
         {
@@ -18,17 +18,17 @@ namespace Utility
 
         public static void displayValue(TextMeshProUGUI txt, string preUnit, float val)
         {
-            txt.SetText(preUnit + convertNum(roundValue(val)));
+            txt.SetText(preUnit + convertNum(val));
         }
 
         public static void displayValue(TextMeshProUGUI txt, float val, string postUnit)
         {
-            txt.SetText(convertNum(roundValue(val)) + postUnit);
+            txt.SetText(convertNum(val) + postUnit);
         }
 
         public static void displayValue(TextMeshProUGUI txt, string preUnit, float val, string postUnit)
         {
-            txt.SetText(preUnit + convertNum(roundValue(val)) + postUnit);
+            txt.SetText(preUnit + convertNum(val) + postUnit);
         }
 
         static float roundValue(float val)
@@ -37,9 +37,10 @@ namespace Utility
             return roundedVal;
         }
 
-        static string convertNum(float val)
+        public static string convertNum(float val)
         {
             int count = 0;
+            val = Mathf.Round(val * 100) / 100;
             int num = (int) val;
             while (num != 0)
             {
@@ -54,22 +55,22 @@ namespace Utility
             //Hundreds
             else if (val < 1000)
             {
-                return "" + Mathf.Round(val);
+                return "" + (int) (val);
             }
             //Thousand
             else if (val < 1000000)
             {
-                return "" + Mathf.Round(val*Mathf.Pow(10,6 - count) / 1000f) / Mathf.Pow(10, 6 - count) + "K";
+                return "" + (int) (val*Mathf.Pow(10,6 - count) / 1000f) / Mathf.Pow(10, 6 - count) + "K";
             }
             //Million
             else if (val < 1000000000)
             {
-                return "" + Mathf.Round(val * Mathf.Pow(10, 9 - count) / 1000000f) / Mathf.Pow(10, 9 - count) + "M";
+                return "" + (int) (val * Mathf.Pow(10, 9 - count) / 1000000f) / Mathf.Pow(10, 9 - count) + "M";
             }
             //Billion
             else if (val < 1000000000000)
             {
-                return "" + Mathf.Round(val * Mathf.Pow(10, 12 - count) / 1000000f) / Mathf.Pow(10, 12 - count) + "B";
+                return "" + (int) (val * Mathf.Pow(10, 12 - count) / 1000000f) / Mathf.Pow(10, 12 - count) + "B";
             }
             return "" + val;
         }

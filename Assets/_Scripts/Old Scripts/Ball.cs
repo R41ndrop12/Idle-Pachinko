@@ -2,84 +2,81 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering.Universal;
 using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "New Ball", menuName = "Ball")]
 public class Ball : ScriptableObject
 {
-    //BaseRate
+    //BaseCooldown
+
+    [Header("Cooldown Variables")]
     [SerializeField]
     [Range(0.05f, 10)]
     //Speed at which ball cooldown resets
-    private float baseRate;
-    //Steep reduction of the cooldown per upgrade
-    public float rateReduction;
-    private int baseRateUpgrades = 0;
-    [SerializeField]
-    //Cost of next upgrade
-    private float baseRateCost = 0;
+    public float baseCooldown;
+    private int baseCooldownUpgrades = 0;//store
+    public int baseCooldownCost = 0;
+    public float minCooldown = 0.05f;//store
     //Increases price of upgrades by n x multiplier
-    public float rateCostMultiplier = 1.15f;
-    [SerializeField]
-    //Base threshold limit before changes
-    private float baseRatePurchaseThreshhold = 10;
-    //Offsets threshold
-    public float rateThreshholdOffset = 5f;
-    //Decreases cooldown by n x multiplier
-    public float ratePurchaseMultiplier = 0.9f;
-    //Increases threshold by n x multiplier, ie 10, 15, 22.5, etc.
-    public float rateThresholdMultiplier = 1.5f;
+    public float cooldownCostMultiplier = 1.15f;
 
-    //BaseAmount
+    [Space (20)]
+    [Header("Multiplier Variables")]
     [SerializeField]
     //Base amount cost
-    private float baseAmountDroppedCost = 50f;
-    public float amountDroppedMultiplier = 3.5f;
-    
-    [SerializeField]
-    private float baseAutoDropCost = 1000f;
-    [SerializeField]
-    private bool baseSpawnBall = false;
+    public float baseMultiplierCost = 50f;
+    private int baseMultUpgrades = 0;
+    private float baseMult = 1f;
+    public float multCostMultiplier = 1.5f;
+
+    [Space(20)]
+    [Header("Other Variables")]
+    public bool isEnabled = false;
 
     public int money = 1;
 
     public GameObject ball;
     public Color ballColor;
+    public Image progressBar;
 
-    //PublicRate
+    //Public
     [HideInInspector]
-    public float rate;
+    public float cooldown;
     [HideInInspector]
-    public int rateUpgrades = 0;
+    public int cooldownUpgrades = 0;
     [HideInInspector]
-    public float rateCost = 0;
-    [HideInInspector]
-    public float ratePurchaseThreshhold = 10;
+    public float cooldownCost = 0;
     [HideInInspector]
     public int amountDropped;
     [HideInInspector]
-    public float amountDroppedCost;
+    public float multiplier;
+    [HideInInspector]
+    public float multiplierCost;
+    [HideInInspector]
+    public int multUpgrades = 0;
     [HideInInspector]
     public bool autoDrop = false;
     [HideInInspector]
     public bool spawnBall = false;
-    [HideInInspector]
-    public float autoDropCost = 0f;
     private void OnEnable()
     {
-        rate = baseRate;
-        rateUpgrades = baseRateUpgrades;
-        rateCost = baseRateCost;
-        amountDropped = 1;
-        autoDrop = false;
-        spawnBall = baseSpawnBall;
-        amountDroppedCost = baseAmountDroppedCost;
-        ratePurchaseThreshhold = baseRatePurchaseThreshhold;
-        autoDropCost = baseAutoDropCost;
+        resetBall();
+        MoneyManager.PrestigeReset += resetBall;
     }
 
     public void enableBall()
     {
         spawnBall = true;
+        isEnabled = true;
+    }
+
+    public void resetBall()
+    {
+        cooldownUpgrades = baseCooldownUpgrades;
+        amountDropped = 1;
+        autoDrop = false;
+        spawnBall = isEnabled;
+        multUpgrades = baseMultUpgrades;
     }
 
 

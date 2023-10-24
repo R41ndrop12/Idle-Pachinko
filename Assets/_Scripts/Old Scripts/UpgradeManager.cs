@@ -1,83 +1,176 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.UI;
 using Utility;
 
 public class UpgradeManager : MonoBehaviour
 {
-    public Ball[] balls;
-    private MoneyManager mm;
-    private BallSpawn bs;
-    public TextMeshProUGUI[] rateCostText;
-    public TextMeshProUGUI[] rateCooldowntText;
-    public TextMeshProUGUI[] amountCostText;
-    public TextMeshProUGUI[] amountText;
-    public TextMeshProUGUI[] autoDropCostText;
-    public TextMeshProUGUI[] autoDropText;
+    public Ball ball;
+    private GameData gameData;
+    public Button spawnButton;
+    public SpriteRenderer ballColor;
+    public Image fill;
+    public TextMeshProUGUI cooldownCostText;
+    public TextMeshProUGUI cooldownText;
+    public TextMeshProUGUI cooldownCountText;
+    public TextMeshProUGUI multCostText;
+    public TextMeshProUGUI multText;
+    public TextMeshProUGUI multCountText;
+    public TextMeshProUGUI ballDollarAmountText;
+    public GameObject nextBall;
+    public static event Action<float> SubtractMoney;
+    public static event Action<Ball> SpawnBall;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        mm = FindObjectOfType<MoneyManager>();
-        bs = FindObjectOfType<BallSpawn>();
+        gameData = FindObjectOfType<GameData>();
+        ball.progressBar = fill;
+        ballColor.color = ball.ballColor;
+        fill.color = ball.ballColor;
+        spawnButton.onClick.AddListener(() => SpawnBall?.Invoke(ball));
+        resetCooldownPrice();
+        resetMultiplierPrice();
+        MoneyManager.PrestigeReset += resetCooldownPrice;
+        MoneyManager.PrestigeReset += resetMultiplierPrice;
     }
 
-    // Update is called once per frame
+    private void OnDisable()
+    {
+        MoneyManager.PrestigeReset -= resetCooldownPrice;
+        MoneyManager.PrestigeReset -= resetMultiplierPrice;
+    }
     void Update()
     {
-
-    }
-
-    public void RatePrice(int ball)
-    {
-        Ball b = balls[ball];
-        if (mm.money >= b.rateCost && b.rate > 0.05f)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            mm.SubtractMoney(b.rateCost);
-            b.rateUpgrades++;
-            b.rate -= b.rateReduction;
-            if (b.rateUpgrades == Mathf.Round(b.ratePurchaseThreshhold) - b.rateThreshholdOffset)
+            if (ball.spawnBall)
             {
-                b.rate *= b.ratePurchaseMultiplier;
-                b.ratePurchaseThreshhold *= b.rateThresholdMultiplier;
+                SpawnBall?.Invoke(ball);
             }
-            if(b.rate < 0.05f)
-            {
-                b.rate = 0.05f;
-            }
-            b.rateCost = b.rateCost * b.rateCostMultiplier;
-            TextManager.displayValue(rateCostText[ball], "$", b.rateCost);
-            TextManager.displayValue(rateCooldowntText[ball], b.rate, "s");
         }
     }
 
-    public void AmountPrice(int ball)
+    public void resetCooldownPrice()
     {
-        Ball b = balls[ball];
-        if (mm.money >= b.amountDroppedCost && b.amountDropped < 10)
+        ball.cooldown = ball.baseCooldown * (Mathf.Pow(0.95f, ball.cooldownUpgrades) - (ball.cooldownUpgrades / 90.125f));
+        ball.cooldownCost = ball.baseCooldownCost * Mathf.Pow(ball.cooldownCostMultiplier, ball.cooldownUpgrades);
+        if (ball.cooldownUpgrades < 5)
         {
-            mm.SubtractMoney(b.amountDroppedCost);
-            b.amountDropped++;
-            b.amountDroppedCost = b.amountDroppedCost * b.amountDroppedMultiplier;
-            TextManager.displayValue(amountCostText[ball], "$", b.amountDroppedCost);
-            TextManager.displayValue(amountText[ball], b.amountDropped);
+            if (nextBall != null)
+                nextBall.SetActive(false);
+            TextManager.displayValue(cooldownCountText, ball.cooldownUpgrades + " / 5");
+        }
+        else if (ball.cooldownUpgrades < 10)
+        {
+            if (nextBall != null)
+                nextBall.SetActive(true);
+            TextManager.displayValue(cooldownCountText, ball.cooldownUpgrades + " / 10");
+        }
+        else
+        {
+            if (!ball.autoDrop)
+            {
+                ball.autoDrop = true;
+                if (ball.spawnBall)
+                {
+                    SpawnBall?.Invoke(ball);
+                }
+            }
+            TextManager.displayValue(cooldownCountText, ball.cooldownUpgrades + " / 25");
+
+        }
+        TextManager.displayValue(ballDollarAmountText, "$", ball.money);
+        TextManager.displayValue(cooldownCostText, "$", ball.cooldownCost);
+        TextManager.displayValue(cooldownText, ball.cooldown, "s");
+    }
+    public void CooldownPrice()
+    {
+        if (ball.cooldown > ball.minCooldown && gameData.Money >= ball.cooldownCost)
+        {
+            SubtractMoney?.Invoke(ball.cooldownCost);
+            ball.cooldownUpgrades++;
+            if (ball.cooldownUpgrades < 5)
+            {
+                if(nextBall != null)
+                    nextBall.SetActive(false);
+                TextManager.displayValue(cooldownCountText, ball.cooldownUpgrades + " / 5");
+            }
+            else if (ball.cooldownUpgrades < 10)
+            {
+                if (nextBall != null)
+                    nextBall.SetActive(true);
+                TextManager.displayValue(cooldownCountText, ball.cooldownUpgrades + " / 10");
+            }
+            else
+            {
+                if (!ball.autoDrop)
+                {
+                    ball.autoDrop = true;
+                    if (ball.spawnBall)
+                    {
+                        SpawnBall?.Invoke(ball);
+                    }
+                }
+                TextManager.displayValue(cooldownCountText, ball.cooldownUpgrades + " / 25");
+
+            }
+            ball.cooldown = ball.baseCooldown * (Mathf.Pow(0.95f, ball.cooldownUpgrades) - (ball.cooldownUpgrades/90.125f));
+            ball.cooldownCost = ball.baseCooldownCost * Mathf.Pow(ball.cooldownCostMultiplier, ball.cooldownUpgrades);
+            if (ball.cooldown < ball.minCooldown)
+            {
+                ball.cooldown = ball.minCooldown;
+                TextManager.displayValue(cooldownCostText, "$-");
+                TextManager.displayValue(cooldownText, ball.cooldown, "s");
+            }
+            else
+            {
+                ball.cooldownCost = ball.cooldownCost * ball.cooldownCostMultiplier;
+                TextManager.displayValue(cooldownCostText, "$", ball.cooldownCost);
+                TextManager.displayValue(cooldownText, ball.cooldown, "s");
+            }
         }
     }
 
-    public void AutoDropPrice(int ball)
+    public void resetMultiplierPrice()
     {
-        Ball b = balls[ball];
-        if (!b.autoDrop && mm.money >= b.autoDropCost)
+        ball.multiplierCost = ball.baseMultiplierCost * Mathf.Pow(ball.multCostMultiplier, ball.multUpgrades); ;
+        ball.multiplier = 1 + 0.1f * ball.multUpgrades;
+        TextManager.displayValue(multCostText, "$", ball.multiplierCost);
+        TextManager.displayValue(multText, "x", ball.multiplier);
+        TextManager.displayValue(ballDollarAmountText, "$", ball.multiplier * ball.money);
+        TextManager.displayValue(multCountText, ball.multUpgrades);
+    }
+    public void MultiplierPrice()
+    {
+        if (gameData.Money >= ball.multiplierCost)
         {
-            mm.SubtractMoney(b.autoDropCost);
-            b.autoDrop = true;
-            TextManager.displayValue(autoDropCostText[ball], "$-");
-            TextManager.displayValue(autoDropText[ball], "On");
-            if (b.spawnBall)
+            SubtractMoney?.Invoke(ball.multiplierCost);
+            ball.multUpgrades++;
+            ball.multiplierCost = ball.baseMultiplierCost * Mathf.Pow(ball.multCostMultiplier, ball.multUpgrades); ;
+            ball.multiplier = 1 + 0.1f * ball.multUpgrades;
+            TextManager.displayValue(multCostText, "$", ball.multiplierCost);
+            TextManager.displayValue(multText, "x", ball.multiplier);
+            TextManager.displayValue(ballDollarAmountText, "$", ball.multiplier * ball.money);
+            TextManager.displayValue(multCountText, ball.multUpgrades);
+        }
+    }
+
+    /*public void AutoDropPrice()
+    {
+        if (!ball.autoDrop && mm.money >= ball.autoDropCost)
+        {
+            mm.SubtractMoney(ball.autoDropCost);
+            ball.autoDrop = true;
+            TextManager.displayValue(autoDropCostText, "$-");
+            TextManager.displayValue(autoDropText, "On");
+            if (ball.spawnBall)
             {
                 bs.SpawnBallWrapper(ball);
             }
         }
-    }
+    }*/
 }

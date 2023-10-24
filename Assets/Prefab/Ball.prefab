@@ -137,8 +137,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4e20ae8a589fd94299de0a8c53727be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  money: 1
-  offset: 5.5
+  ball: {fileID: 0}
+  moneyEarned: {fileID: 6963662987455052716, guid: 87b170b11032e104b8039f28f525cd59, type: 3}
 --- !u!96 &-3986436141369098625
 TrailRenderer:
   serializedVersion: 2

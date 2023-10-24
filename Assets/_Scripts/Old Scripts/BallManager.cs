@@ -1,25 +1,26 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using Utility;
 
 public class BallManager : MonoBehaviour
 {
-    private ProbabilityManager pm;
-    private MoneyManager mm;
     private Rigidbody2D rb;
-    public float money = 1f;
+    public Ball ball;
+    public static event Action<GameObject, Ball> BallCollected;
     // Start is called before the first frame update
     void Start()
     {
-        pm = FindObjectOfType<ProbabilityManager>();
-        mm = FindObjectOfType<MoneyManager>();
         rb = GetComponent<Rigidbody2D>();
+        MoneyManager.PrestigeReset += ballReset;
+        
     }
 
     private void Update()
     {
-        if (rb.velocity.y >= 0 && rb.velocity.y <= 0.1f)
+        if (rb.velocity.y == 0f)
         {
             rb.AddRelativeForce(new Vector2(0.5f, 1f) * 3);
         }
@@ -29,10 +30,14 @@ public class BallManager : MonoBehaviour
     {
         if(collision.gameObject.layer == 7)
         {
-            MultiplierManager multM = collision.gameObject.GetComponent<MultiplierManager>();
-            pm.AddProbability(multM.posFromCenter);
-            mm.AddMoney(money * multM.multiplier);
-            Destroy(this.gameObject);
+            BallCollected?.Invoke(collision.gameObject, ball);
+            ballReset();
         }
+    }
+
+    public void ballReset()
+    {
+        MoneyManager.PrestigeReset -= ballReset;
+        Destroy(this.gameObject);
     }
 }

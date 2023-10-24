@@ -10,29 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d24734a303d0bdf4faa1d0a39191bb3a, type: 3}
-  m_Name: Ten Dollar
+  m_Name: Five Dollar
   m_EditorClassIdentifier: 
-  baseRate: 5
-  rateReduction: 0.15
-  baseRateCost: 100
-  rateCostMultiplier: 1.15
-  baseRatePurchaseThreshhold: 10
-  rateThreshholdOffset: 5
-  ratePurchaseMultiplier: 0.9
-  rateThresholdMultiplier: 1.5
-  baseAmountDroppedCost: 1000
-  amountDroppedMultiplier: 2.15
-  baseAutoDropCost: 10000
-  baseSpawnBall: 0
-  money: 10
+  baseCooldown: 4
+  baseCooldownCost: 25
+  minCooldown: 0.05
+  cooldownCostMultiplier: 1.15
+  baseMultiplierCost: 50
+  multCostMultiplier: 1.5
+  isEnabled: 1
+  money: 5
   ball: {fileID: 8945446414016878203, guid: 08ba5649bc8e7fd4796c80587467911a, type: 3}
   ballColor: {r: 0.05490196, g: 1, b: 0, a: 1}
-  rate: 5
-  rateUpgrades: 0
-  rateCost: 100
-  ratePurchaseThreshhold: 10
+  progressBar: {fileID: 0}
+  cooldown: 2.4826694
+  cooldownUpgrades: 7
+  cooldownCost: 76.47556
   amountDropped: 1
-  amountDroppedCost: 1000
+  multiplier: 1
+  multiplierCost: 50
+  multUpgrades: 0
   autoDrop: 0
-  spawnBall: 0
-  autoDropCost: 10000
+  spawnBall: 1
