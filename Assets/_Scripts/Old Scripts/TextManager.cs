@@ -39,40 +39,33 @@ namespace Utility
 
         public static string convertNum(float val)
         {
+            string[] suffixes = {"K", "M", "B", "T", "q", "Q", "s", "S", "O", "N", "D"};
             int count = 0;
-            val = Mathf.Round(val * 100) / 100;
-            int num = (int) val;
-            while (num != 0)
-            {
-                num = num / 10;
-                ++count;
-            }
+            val = Mathf.Round(val * 100f) / 100f;
+            float num = Mathf.Round(val);
+            count = (int) (Mathf.Log10(num)) + 1;
             //Tens
-            if (val < 100)
+            if (val < 100f)
             {
                 return "" + val;
             }
             //Hundreds
-            else if (val < 1000)
+            else if (val < 1000f)
             {
                 return "" + (int) (val);
             }
             //Thousand
-            else if (val < 1000000)
+            else
             {
-                return "" + (int) (val*Mathf.Pow(10,6 - count) / 1000f) / Mathf.Pow(10, 6 - count) + "K";
+                for (int i = 6; i < 39; i += 3)
+                {
+                    if (val < Mathf.Pow(10, i))
+                    {
+                        return "" + (Mathf.Round(val / Mathf.Pow(10f, i - 3) * Mathf.Pow(10f, i - count)) / Mathf.Pow(10f, i - count)) + suffixes[(i - 6) / 3];
+                    }
+                }
             }
-            //Million
-            else if (val < 1000000000)
-            {
-                return "" + (int) (val * Mathf.Pow(10, 9 - count) / 1000000f) / Mathf.Pow(10, 9 - count) + "M";
-            }
-            //Billion
-            else if (val < 1000000000000)
-            {
-                return "" + (int) (val * Mathf.Pow(10, 12 - count) / 1000000f) / Mathf.Pow(10, 12 - count) + "B";
-            }
-            return "" + val;
+            return "THE END";
         }
     }
 }

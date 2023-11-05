@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Rendering.Universal;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,8 +12,8 @@ public class Ball : ScriptableObject
     //Speed at which ball cooldown resets
     public float baseCooldown;
     private int baseCooldownUpgrades = 0;//store
+    public int cooldownUpgradesMax = 20;
     public int baseCooldownCost = 0;
-    public float minCooldown = 0.05f;//store
     //Increases price of upgrades by n x multiplier
     public float cooldownCostMultiplier = 1.15f;
 
@@ -26,14 +23,16 @@ public class Ball : ScriptableObject
     //Base amount cost
     public float baseMultiplierCost = 50f;
     private int baseMultUpgrades = 0;
-    private float baseMult = 1f;
+    public float multIncrease = 0.1f;
     public float multCostMultiplier = 1.5f;
 
     [Space(20)]
     [Header("Other Variables")]
     public bool isEnabled = false;
 
-    public int money = 1;
+    public float baseMoney = 1;
+    [HideInInspector]
+    public float money = 1;
 
     public GameObject ball;
     public Color ballColor;
@@ -43,17 +42,15 @@ public class Ball : ScriptableObject
     [HideInInspector]
     public float cooldown;
     [HideInInspector]
-    public int cooldownUpgrades = 0;
-    [HideInInspector]
     public float cooldownCost = 0;
     [HideInInspector]
     public int amountDropped;
     [HideInInspector]
     public float multiplier;
     [HideInInspector]
-    public float multiplierCost;
+    public float worldMultiplier;
     [HideInInspector]
-    public int multUpgrades = 0;
+    public float multiplierCost;
     [HideInInspector]
     public bool autoDrop = false;
     [HideInInspector]
@@ -61,7 +58,6 @@ public class Ball : ScriptableObject
     private void OnEnable()
     {
         resetBall();
-        MoneyManager.PrestigeReset += resetBall;
     }
 
     public void enableBall()
@@ -70,13 +66,19 @@ public class Ball : ScriptableObject
         isEnabled = true;
     }
 
+    public void disableBall()
+    {
+        spawnBall = false;
+        isEnabled = false;
+        autoDrop = false;
+    }
+
     public void resetBall()
     {
-        cooldownUpgrades = baseCooldownUpgrades;
         amountDropped = 1;
-        autoDrop = false;
         spawnBall = isEnabled;
-        multUpgrades = baseMultUpgrades;
+        money = baseMoney;
+        disableBall();
     }
 
 

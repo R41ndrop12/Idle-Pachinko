@@ -12,23 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d24734a303d0bdf4faa1d0a39191bb3a, type: 3}
   m_Name: Five Dollar
   m_EditorClassIdentifier: 
-  baseCooldown: 4
-  baseCooldownCost: 25
-  minCooldown: 0.05
+  baseCooldown: 3
+  cooldownUpgradesMax: 20
+  baseCooldownCost: 50
   cooldownCostMultiplier: 1.15
-  baseMultiplierCost: 50
+  baseMultiplierCost: 75
+  multIncrease: 0.1
   multCostMultiplier: 1.5
-  isEnabled: 1
+  isEnabled: 0
+  baseMoney: 5
   money: 5
   ball: {fileID: 8945446414016878203, guid: 08ba5649bc8e7fd4796c80587467911a, type: 3}
-  ballColor: {r: 0.05490196, g: 1, b: 0, a: 1}
+  ballColor: {r: 0, g: 1, b: 0.8321078, a: 1}
   progressBar: {fileID: 0}
-  cooldown: 2.4826694
-  cooldownUpgrades: 7
-  cooldownCost: 76.47556
+  cooldown: 0.8905669
+  cooldownUpgrades: 0
+  cooldownCost: 203.42648
   amountDropped: 1
   multiplier: 1
+  worldMultiplier: 0
   multiplierCost: 50
   multUpgrades: 0
-  autoDrop: 0
-  spawnBall: 1
+  autoDrop: 1
+  spawnBall: 0

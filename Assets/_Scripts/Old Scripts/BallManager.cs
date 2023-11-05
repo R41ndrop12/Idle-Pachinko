@@ -15,7 +15,7 @@ public class BallManager : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         MoneyManager.PrestigeReset += ballReset;
-        
+        GameData.loadGame += ballReset;
     }
 
     private void Update()
@@ -38,6 +38,7 @@ public class BallManager : MonoBehaviour
     public void ballReset()
     {
         MoneyManager.PrestigeReset -= ballReset;
+        GameData.loadGame -= ballReset;
         Destroy(this.gameObject);
     }
 }

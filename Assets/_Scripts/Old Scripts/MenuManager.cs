@@ -5,8 +5,8 @@ using UnityEngine.Playables;
 
 public class MenuManager : MonoBehaviour
 {
-    public GameObject[] gm;
-    public GameObject[] gms;
+    public GameObject[] hide;
+    public GameObject[] show;
 
     private void Start()
     {
@@ -15,14 +15,14 @@ public class MenuManager : MonoBehaviour
 
     public void Switch()
     {
-        for (int i = 0; i < gms.Length; i++)
+        for (int i = 0; i < show.Length; i++)
         {
-            gms[i].SetActive(true);
+            show[i].SetActive(true);
         }
-        for (int i = 0; i < gm.Length; i++)
+        for (int i = 0; i < hide.Length; i++)
         {
-            if (gm != null)
-                gm[i].SetActive(false);
+            if (hide != null)
+                hide[i].SetActive(false);
         }
     }
 
