@@ -28,9 +28,10 @@ public class BallManager : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.layer == 7)
+        if (collision.gameObject.layer == 7)
         {
-            BallCollected?.Invoke(collision.gameObject, ball);
+            if(ball.isEnabled)
+                BallCollected?.Invoke(collision.gameObject, ball);
             ballReset();
         }
     }

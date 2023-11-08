@@ -10,25 +10,14 @@ public class PrestigeUpgradeManager : MonoBehaviour
 {
 
     public static event Action<float> SubtractPrestige;
-    public static event Action UpdateCooldownMax;
-    public static event Action UpdateMultPercentage;
+    public static event Action UpdateCooldown;
     public static event Action UpdateMult;
     private Data gameData;
     
-    [Header("Cooldown Upgrades")]
+    [Header("Cooldown Upgrade")]
     public TextMeshProUGUI cooldownCostTxt;
-    public TextMeshProUGUI cooldownMaxTxt;
+    public TextMeshProUGUI cooldownTxt;
     private float cooldownUpgradeCost = 2;
-
-    [Header("Multiplier Percentage Upgrades")]
-    public TextMeshProUGUI multPercentCostText;
-    public TextMeshProUGUI multPercentText;
-    private float multPercentageUpgradeCost = 1;
-
-    [Header("Multiplier Upgrades")]
-    public TextMeshProUGUI multCostText;
-    public TextMeshProUGUI multText;
-    private float multUpgradeCost = 16;
     // Start is called before the first frame update
     void Awake()
     {
@@ -37,67 +26,27 @@ public class PrestigeUpgradeManager : MonoBehaviour
         loadData();
     }
 
-    public void UpgradeCooldownMax()
+    public void UpgradeCooldown()
     {
-        if (gameData.TotalPrestige >= cooldownUpgradeCost && gameData.PrestigeUpgradeCount[0] < 5)
+        if (gameData.TotalPrestige >= cooldownUpgradeCost && gameData.PrestigeUpgradeCount[0] < 9)
         {
             SubtractPrestige?.Invoke(Mathf.Round(cooldownUpgradeCost));
             gameData.PrestigeUpgradeCount[0]++;
-            UpdateCooldownMax?.Invoke();
-            cooldownUpgradeCost = Mathf.Round(2 * Mathf.Pow(2f, gameData.PrestigeUpgradeCount[0]));
-            if(gameData.PrestigeUpgradeCount[0] < 5)
-                TextManager.displayValue(cooldownCostTxt, cooldownUpgradeCost, "p");
-            else
-                TextManager.displayValue(cooldownCostTxt, "MAX");
-            TextManager.displayValue(cooldownMaxTxt, gameData.PrestigeUpgradeCount[0], " / 5");
-        }
-    }
-
-    public void UpgradeMultiplierPercentage()
-    {
-        if (gameData.TotalPrestige >= multPercentageUpgradeCost)
-        {
-            SubtractPrestige?.Invoke(Mathf.Round(multPercentageUpgradeCost));
-            gameData.PrestigeUpgradeCount[1]++;
-            UpdateMultPercentage?.Invoke();
-            multPercentageUpgradeCost = Mathf.Round(Mathf.Pow(1.5f, gameData.PrestigeUpgradeCount[1] + 1f));
-            TextManager.displayValue(multPercentCostText, multPercentageUpgradeCost, "p");
-            TextManager.displayValue(multPercentText, "+", gameData.PrestigeUpgradeCount[1]*10, "%");
-        }
-    }
-
-    public void UpgradeMultiplier()
-    {
-        if (gameData.TotalPrestige >= multUpgradeCost)
-        {
-            SubtractPrestige?.Invoke(Mathf.Round(multUpgradeCost));
-            gameData.PrestigeUpgradeCount[2]++;
-            UpdateMultPercentage?.Invoke();
-            multUpgradeCost = Mathf.Round(16 * Mathf.Pow(2, gameData.PrestigeUpgradeCount[2]));
-            TextManager.displayValue(multCostText, multUpgradeCost, "p");
-            TextManager.displayValue(multText, "x", Mathf.Pow(2, gameData.PrestigeUpgradeCount[2]));
+            Cooldown();
         }
     }
 
     void loadData()
     {
         gameData = FindObjectOfType<GameData>()._data;
-        UpdateMultPercentage?.Invoke();
-        multUpgradeCost = Mathf.Round(16 * Mathf.Pow(2, gameData.PrestigeUpgradeCount[2]));
-        TextManager.displayValue(multCostText, multUpgradeCost, "p");
-        TextManager.displayValue(multText, "x", Mathf.Pow(2, gameData.PrestigeUpgradeCount[2]));
+        Cooldown();
+    }
 
-        UpdateMultPercentage?.Invoke();
-        multPercentageUpgradeCost = Mathf.Round(gameData.PrestigeUpgradeCount[1] * 2);
-        TextManager.displayValue(multPercentCostText, multPercentageUpgradeCost, "p");
-        TextManager.displayValue(multPercentText, "+", gameData.PrestigeUpgradeCount[1] * 10, "%");
-
-        UpdateCooldownMax?.Invoke();
-        cooldownUpgradeCost = Mathf.Round(2 * Mathf.Pow(2f, gameData.PrestigeUpgradeCount[0]));
-        if (gameData.PrestigeUpgradeCount[0] < 5)
-            TextManager.displayValue(cooldownCostTxt, cooldownUpgradeCost, "p");
-        else
-            TextManager.displayValue(cooldownCostTxt, "MAX");
-        TextManager.displayValue(cooldownMaxTxt, gameData.PrestigeUpgradeCount[0], " / 5");
+    void Cooldown()
+    {
+        UpdateCooldown?.Invoke();
+        cooldownUpgradeCost = Mathf.Round(Mathf.Pow(2f, 1.1f * (gameData.PrestigeUpgradeCount[0] + 1f)));
+        TextManager.displayValue(cooldownCostTxt, cooldownUpgradeCost, "p");
+        TextManager.displayValue(cooldownTxt, "-", gameData.PrestigeUpgradeCount[0] * 10, "%");
     }
 }

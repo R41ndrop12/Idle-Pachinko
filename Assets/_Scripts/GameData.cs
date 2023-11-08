@@ -18,14 +18,7 @@ public class GameData : MonoBehaviour
     public TMP_InputField saveInput;
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            SaveGame();
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            LoadGame();
-        }
+        
     }
     public void SaveGame()
     {
@@ -88,7 +81,6 @@ public class Data
     public float TotalPrestige;
     //Bonus multiplier allows us to better balance the incremental game
     //https://www.gamedeveloper.com/design/the-math-of-idle-games-part-i
-    public int[] BallCooldownCount;
     public int[] BallMultiplierCount;
     public int[] PrestigeUpgradeCount;
     public List<Ball> BallDataList = new();    
