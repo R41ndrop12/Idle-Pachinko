@@ -67,6 +67,8 @@ public class Ball : ScriptableObject
     {
         amountDropped = 1;
         money = baseMoney;
+        if (progressBar != null)
+            progressBar.fillAmount = 1;
         disableBall();
     }
 

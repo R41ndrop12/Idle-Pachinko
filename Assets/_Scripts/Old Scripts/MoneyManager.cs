@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using Utility;
 
@@ -24,6 +23,7 @@ public class MoneyManager : MonoBehaviour
         MultiplierManager.AddMoney += Add;
         UpgradeManager.SubtractMoney += SubtractMoney;
         PrestigeUpgradeManager.SubtractPrestige += SubtractPrestige;
+        PrestigeUpgradeManager.UpdateIncomeBoost += UpdateExplanation;
         GameData.loadGame += loadData;
         loadData();
         //StartCoroutine("TrackMoneyOverTime");
@@ -36,7 +36,12 @@ public class MoneyManager : MonoBehaviour
         TextManager.displayValue(mText, "$", gameData.Money);
         TextManager.displayValue(pText, "+", gameData.NextPrestige, "p");
         TextManager.displayValue(pTotalText, gameData.TotalPrestige, "p");
-        pExplanationText.SetText("Your " + TextManager.convertNum(gameData.TotalPrestige) + "p is providing a " + TextManager.convertNum(gameData.TotalPrestige * 10f) + "% boost to your income!");
+        UpdateExplanation();
+    }
+
+    void UpdateExplanation()
+    {
+        pExplanationText.SetText("Your " + TextManager.convertNum(gameData.TotalPrestige) + "p is providing a " + TextManager.convertNum(gameData.TotalPrestige * 10f * (gameData.PrestigeUpgradeCount[1] + 1)) + "% boost to your income!");
     }
 
     private void Add(float m)

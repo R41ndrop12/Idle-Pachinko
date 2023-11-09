@@ -40,6 +40,7 @@ public class UpgradeManager : MonoBehaviour
         BuyMode.changeBuyMode += UpdateCost;
         MoneyManager.UpdateBuyMode += CalculateCost;
         UpdateBuyMode += UpdateCost;
+        PrestigeUpgradeManager.UpdateCooldown += checkMultiplierPrice;
     }
 
     private void OnDisable()
@@ -49,15 +50,13 @@ public class UpgradeManager : MonoBehaviour
         BuyMode.changeBuyMode -= UpdateCost;
         MoneyManager.UpdateBuyMode -= CalculateCost;
         UpdateBuyMode -= UpdateCost;
+        PrestigeUpgradeManager.UpdateCooldown -= checkMultiplierPrice;
+        PrestigeUpgradeManager.UpdateIncomeBoost -= checkMultiplierPrice;
     }
 
     private void OnEnable()
     {
-        MoneyManager.PrestigeReset += resetUpgrades;
-        BallSpawn.LoadBall += loadData;
-        BuyMode.changeBuyMode += UpdateCost;
-        MoneyManager.UpdateBuyMode += CalculateCost;
-        UpdateBuyMode += UpdateCost;
+        ball.enableBall();
     }
     void loadData()
     {
@@ -70,8 +69,8 @@ public class UpgradeManager : MonoBehaviour
     public void resetUpgrades()
     {
         gameData.BallMultiplierCount[ballNum] = 0;
+        ball.resetBall();
         CalculateCost();
-        checkMultiplierPrice();
     }
 
     public void checkMultiplierPrice()
@@ -101,12 +100,12 @@ public class UpgradeManager : MonoBehaviour
                 ball.autoDrop = true;
                 if (ball.spawnBall)
                 {
-                    //SpawnBall?.Invoke(ball);
+                    SpawnBall?.Invoke(ball);
                 }
             }
         }
-        ball.multiplier = (1 + gameData.BallMultiplierCount[ballNum] * (gameData.PrestigeUpgradeCount[1] + 1f)/10f) * (basicMultiplier + 1) * Mathf.Pow(1.5f, intermediateMultiplier);
-        ball.money = ball.baseMoney * (1 + gameData.TotalPrestige/10);
+        ball.multiplier = (1 + gameData.BallMultiplierCount[ballNum]/10f) * (basicMultiplier + 1) * Mathf.Pow(1.5f, intermediateMultiplier);
+        ball.money = ball.baseMoney * (1 + gameData.TotalPrestige * (1 + gameData.PrestigeUpgradeCount[1]) / 10f);
         TextManager.displayValue(multCostText, "$", ball.multiplierCost);
         TextManager.displayValue(ballDollarAmountText, "$", ball.multiplier * ball.money, " / " + TextManager.convertNum(ball.baseCooldown * (1f - (gameData.PrestigeUpgradeCount[0]/10f))) + "s");
         TextManager.displayValue(multCountText, gameData.BallMultiplierCount[ballNum], " / " + ((basicMultiplier + 1) * 10));

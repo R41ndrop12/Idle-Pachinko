@@ -2,23 +2,22 @@ using System;
 using System.Text;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using TMPro;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Reflection;
 
 [Serializable]
 public class GameData : MonoBehaviour
 {
     public Data _data = new Data();
-    private Data _dataBackup = new Data();
+    private Data _dataNew = new Data();
     public static event Action saveGame;
     public static event Action loadGame;
     public TMP_InputField saveInput;
-    private void Update()
+    private void Start()
     {
-        
+        _dataNew = _data;
     }
     public void SaveGame()
     {
@@ -32,6 +31,7 @@ public class GameData : MonoBehaviour
 
     public void LoadGame()
     {
+        Data _dataBackup = new Data();
         _dataBackup = _data;
         if (saveInput.text.Equals(""))
         {
@@ -41,8 +41,10 @@ public class GameData : MonoBehaviour
         {
             try
             {
+                Data _dataTemp = new Data();
                 string decrypted = Decode(saveInput.text);
-                _data = JsonUtility.FromJson<Data>(decrypted);
+                _dataTemp = JsonUtility.FromJson<Data>(decrypted);
+                Compare(_data, _dataTemp);
             }
             catch
             {
@@ -50,8 +52,12 @@ public class GameData : MonoBehaviour
                 _data = _dataBackup;
             }
         }
-        _dataBackup = _data;
         loadGame?.Invoke();
+    }
+
+    public void Delete()
+    {
+        _data = _dataNew;
     }
 
     private string Encode(string data)
@@ -66,6 +72,32 @@ public class GameData : MonoBehaviour
         byte[] decodedBytes = Convert.FromBase64String(data);
         string decodedText = Encoding.UTF8.GetString(decodedBytes);
         return decodedText;
+    }
+
+    private Data Compare(Data data, Data temp)
+    {
+        if(data.BallMultiplierCount.Length != temp.BallMultiplierCount.Length)
+        {
+            for (int i = 0; i < temp.BallMultiplierCount.Length; i++)
+            {
+                data.BallMultiplierCount[i] = temp.BallMultiplierCount[i];
+            }
+        }
+        if(data.PrestigeUpgradeCount.Length != temp.PrestigeUpgradeCount.Length)
+        {
+            for (int i = 0; i < temp.PrestigeUpgradeCount.Length; i++)
+            {
+                data.PrestigeUpgradeCount[i] = temp.PrestigeUpgradeCount[i];
+            }
+        }
+        if(data.BallDataList.Count != temp.BallDataList.Count)
+        {
+            for(int i = 0; i < temp.BallDataList.Count; i++)
+            {
+                data.BallDataList[i] = temp.BallDataList[i];
+            }
+        }
+        return data;
     }
 
 }
