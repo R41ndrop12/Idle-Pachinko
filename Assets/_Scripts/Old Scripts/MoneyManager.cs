@@ -44,28 +44,28 @@ public class MoneyManager : MonoBehaviour
         pExplanationText.SetText("Your " + TextManager.convertNum(gameData.TotalPrestige) + "p is providing a " + TextManager.convertNum(gameData.TotalPrestige * 10f * (gameData.PrestigeUpgradeCount[1] + 1)) + "% boost to your income!");
     }
 
-    private void Add(float m)
+    private void Add(double m)
     {
         gameData.Money += m;
         gameData.RunMoney += m;
         gameData.LifetimeMoney += m;
-        gameData.NextPrestige = Mathf.Round((100 * (Mathf.Sqrt(gameData.RunMoney / Mathf.Pow(10, 8)))));
+        gameData.NextPrestige = Math.Round((150 * (Math.Sqrt(gameData.RunMoney / Mathf.Pow(10, 8)))));
         TextManager.displayValue(mText, "$", gameData.Money);
         TextManager.displayValue(pText, "+", gameData.NextPrestige, "p");
         UpdateBuyMode?.Invoke();
     }
-    private void SubtractMoney(float m)
+    private void SubtractMoney(double m)
     {
         gameData.Money -= m;
         TextManager.displayValue(mText, "$", gameData.Money);
         UpdateBuyMode?.Invoke();
     }
 
-    private void SubtractPrestige(float p)
+    private void SubtractPrestige(double p)
     {
         gameData.TotalPrestige -= p;
         TextManager.displayValue(pTotalText, gameData.TotalPrestige, "p");
-        pExplanationText.SetText("Your " + TextManager.convertNum(gameData.TotalPrestige) + " is providing a " + TextManager.convertNum(gameData.TotalPrestige * 10f) + "% boost to your income!");
+        UpdateExplanation();
     }
 
     public void Prestige()
@@ -79,14 +79,5 @@ public class MoneyManager : MonoBehaviour
             loadData();
             PrestigeReset?.Invoke();
         }
-    }
-
-    IEnumerator TrackMoneyOverTime()
-    {
-        Vector2 currentData = new Vector2(seconds, gameData.RunMoney);
-        moneyOverTime.Add(currentData);
-        seconds++;
-        yield return new WaitForSeconds(1f);
-        StartCoroutine("TrackMoneyOverTime");
     }
 }

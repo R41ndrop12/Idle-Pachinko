@@ -20,7 +20,7 @@ public class UpgradeManager : MonoBehaviour
     public TextMeshProUGUI multCountText;
     public TextMeshProUGUI ballDollarAmountText;
     public GameObject nextBall;
-    public static event Action<float> SubtractMoney;
+    public static event Action<double> SubtractMoney;
     public static event Action<Ball> SpawnBall;
     public static event Action<Mode> UpdateBuyMode;
     private Mode buyMode = Mode.One;
@@ -41,6 +41,7 @@ public class UpgradeManager : MonoBehaviour
         MoneyManager.UpdateBuyMode += CalculateCost;
         UpdateBuyMode += UpdateCost;
         PrestigeUpgradeManager.UpdateCooldown += checkMultiplierPrice;
+        PrestigeUpgradeManager.UpdateIncomeBoost += checkMultiplierPrice;
     }
 
     private void OnDisable()
@@ -56,6 +57,13 @@ public class UpgradeManager : MonoBehaviour
 
     private void OnEnable()
     {
+        MoneyManager.PrestigeReset += resetUpgrades;
+        BallSpawn.LoadBall += loadData;
+        BuyMode.changeBuyMode += UpdateCost;
+        MoneyManager.UpdateBuyMode += CalculateCost;
+        UpdateBuyMode += UpdateCost;
+        PrestigeUpgradeManager.UpdateCooldown += checkMultiplierPrice;
+        PrestigeUpgradeManager.UpdateIncomeBoost += checkMultiplierPrice;
         ball.enableBall();
     }
     void loadData()
@@ -108,7 +116,7 @@ public class UpgradeManager : MonoBehaviour
         ball.money = ball.baseMoney * (1 + gameData.TotalPrestige * (1 + gameData.PrestigeUpgradeCount[1]) / 10f);
         TextManager.displayValue(multCostText, "$", ball.multiplierCost);
         TextManager.displayValue(ballDollarAmountText, "$", ball.multiplier * ball.money, " / " + TextManager.convertNum(ball.baseCooldown * (1f - (gameData.PrestigeUpgradeCount[0]/10f))) + "s");
-        TextManager.displayValue(multCountText, gameData.BallMultiplierCount[ballNum], " / " + ((basicMultiplier + 1) * 10));
+        multCountText.SetText(TextManager.convertNum(gameData.BallMultiplierCount[ballNum]) + " / " + TextManager.convertNum((basicMultiplier + 1) * 10));
         amountFill.fillAmount = (gameData.BallMultiplierCount[ballNum] - basicMultiplier * 10f) / 10f;
     }
 
@@ -128,7 +136,7 @@ public class UpgradeManager : MonoBehaviour
     }
     public void CalculateCost()
     {
-        float totalCost;
+        double totalCost;
         switch (buyMode)
         {
             case Mode.Ten:
@@ -139,10 +147,10 @@ public class UpgradeManager : MonoBehaviour
                 break;
             case Mode.Max:
                 amountBought = 1;
-                totalCost = Mathf.Round(ball.baseMultiplierCost * Mathf.Pow(ball.multCostMultiplier, gameData.BallMultiplierCount[ballNum]) * 10f) / 10f;
+                totalCost = Math.Round(ball.baseMultiplierCost * Math.Pow(ball.multCostMultiplier, gameData.BallMultiplierCount[ballNum]) * 10) / 10;
                 while (totalCost < gameData.Money)
                 {
-                    totalCost += Mathf.Round(ball.baseMultiplierCost * Mathf.Pow(ball.multCostMultiplier, gameData.BallMultiplierCount[ballNum] + amountBought) * 10f) / 10f;
+                    totalCost += Math.Round(ball.baseMultiplierCost * Math.Pow(ball.multCostMultiplier, gameData.BallMultiplierCount[ballNum] + amountBought) * 10) / 10;
                     amountBought++;
                 }
                 amountBought--;
@@ -154,10 +162,10 @@ public class UpgradeManager : MonoBehaviour
                 amountBought = 1;
                 break;
         }
-        totalCost = Mathf.Round(ball.baseMultiplierCost * Mathf.Pow(ball.multCostMultiplier, gameData.BallMultiplierCount[ballNum]) * 10f) / 10f;
+        totalCost = Math.Round(ball.baseMultiplierCost * Math.Pow(ball.multCostMultiplier, gameData.BallMultiplierCount[ballNum]) * 10) / 10;
         for (int i = 1; i < amountBought; i++)
         {
-            totalCost += Mathf.Round(ball.baseMultiplierCost * Mathf.Pow(ball.multCostMultiplier, gameData.BallMultiplierCount[ballNum] + i) * 10f) / 10f;
+            totalCost += Math.Round(ball.baseMultiplierCost * Math.Pow(ball.multCostMultiplier, gameData.BallMultiplierCount[ballNum] + i) * 10) / 10;
         }
         ball.multiplierCost = totalCost;
         checkMultiplierPrice();

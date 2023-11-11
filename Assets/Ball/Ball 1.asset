@@ -15,16 +15,16 @@ MonoBehaviour:
   baseCooldown: 1
   baseMultiplierCost: 10
   multIncrease: 0.1
-  multCostMultiplier: 1.1
+  multCostMultiplier: 1.05
   isEnabled: 1
   baseMoney: 1
-  money: 1
+  money: Infinity
   ball: {fileID: 8945446414016878203, guid: 08ba5649bc8e7fd4796c80587467911a, type: 3}
   ballColor: {r: 0, g: 0.74598193, b: 1, a: 1}
   progressBar: {fileID: 0}
   cooldown: 1
   amountDropped: 1
-  multiplier: 1.6
-  multiplierCost: 17.7
+  multiplier: 1
+  multiplierCost: 10
   autoDrop: 0
   spawnBall: 1

@@ -13,23 +13,18 @@ MonoBehaviour:
   m_Name: Ball 4
   m_EditorClassIdentifier: 
   baseCooldown: 2
-  cooldownUpgradesMax: 20
-  baseCooldownCost: 5000
-  cooldownCostMultiplier: 1.15
-  baseMultiplierCost: 10000
+  baseMultiplierCost: 15000
   multIncrease: 0.1
-  multCostMultiplier: 1.15
-  isEnabled: 0
+  multCostMultiplier: 1.125
+  isEnabled: 1
   baseMoney: 1000
   money: 1000
   ball: {fileID: 8945446414016878203, guid: 08ba5649bc8e7fd4796c80587467911a, type: 3}
-  ballColor: {r: 0.7075492, g: 1, b: 0, a: 1}
+  ballColor: {r: 0.59768593, g: 1, b: 0, a: 1}
   progressBar: {fileID: 0}
   cooldown: 2
-  cooldownCost: 625
   amountDropped: 1
-  multiplier: 1.3
-  worldMultiplier: 0
-  multiplierCost: 11979.001
-  autoDrop: 0
+  multiplier: 272.25
+  multiplierCost: 35164027074.4
+  autoDrop: 1
   spawnBall: 0

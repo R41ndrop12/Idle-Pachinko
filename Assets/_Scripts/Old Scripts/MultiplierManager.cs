@@ -5,7 +5,7 @@ public class MultiplierManager : MonoBehaviour
 {
     public float multiplier = 0f;
     public int posFromCenter = 0;
-    public static event Action<float> AddMoney;
+    public static event Action<double> AddMoney;
     public static event Action<int> AddProbability;
     public Color color;
 

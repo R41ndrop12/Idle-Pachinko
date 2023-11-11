@@ -106,11 +106,11 @@ public class GameData : MonoBehaviour
 public class Data
 {
     //Money representation should handle a lot but at some point it will get reset to 0
-    public float Money;
-    public float RunMoney;
-    public float LifetimeMoney;
-    public float NextPrestige;
-    public float TotalPrestige;
+    public double Money;
+    public double RunMoney;
+    public double LifetimeMoney;
+    public double NextPrestige;
+    public double TotalPrestige;
     //Bonus multiplier allows us to better balance the incremental game
     //https://www.gamedeveloper.com/design/the-math-of-idle-games-part-i
     public int[] BallMultiplierCount;

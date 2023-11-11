@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d24734a303d0bdf4faa1d0a39191bb3a, type: 3}
-  m_Name: Ball 3
+  m_Name: Ball 7
   m_EditorClassIdentifier: 
-  baseCooldown: 1
-  baseMultiplierCost: 750
+  baseCooldown: 3
+  baseMultiplierCost: 7500000000
   multIncrease: 0.1
-  multCostMultiplier: 1.1
+  multCostMultiplier: 1.2
   isEnabled: 1
-  baseMoney: 100
-  money: 100
+  baseMoney: 1000000
+  money: 1000000
   ball: {fileID: 8945446414016878203, guid: 08ba5649bc8e7fd4796c80587467911a, type: 3}
-  ballColor: {r: 0, g: 1, b: 0.4137957, a: 1}
+  ballColor: {r: 1, g: 0.57531905, b: 0, a: 1}
   progressBar: {fileID: 0}
-  cooldown: 1
+  cooldown: 2
   amountDropped: 1
   multiplier: 272.25
-  multiplierCost: 164720978.6
+  multiplierCost: 1.6123908920754151e+19
   autoDrop: 1
   spawnBall: 0

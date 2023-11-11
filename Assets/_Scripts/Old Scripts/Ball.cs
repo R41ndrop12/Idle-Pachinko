@@ -16,7 +16,7 @@ public class Ball : ScriptableObject
     [Header("Multiplier Variables")]
     [SerializeField]
     //Base amount cost
-    public float baseMultiplierCost = 50f;
+    public double baseMultiplierCost = 50f;
     public float multIncrease = 0.1f;
     public float multCostMultiplier = 1.5f;
 
@@ -26,7 +26,7 @@ public class Ball : ScriptableObject
 
     public float baseMoney = 1;
     [HideInInspector]
-    public float money = 1;
+    public double money = 1;
 
     public GameObject ball;
     public Color ballColor;
@@ -39,8 +39,8 @@ public class Ball : ScriptableObject
     public int amountDropped;
     [HideInInspector]
     public float multiplier;
-    [HideInInspector]
-    public float multiplierCost;
+    //[HideInInspector]
+    public double multiplierCost;
     //[HideInInspector]
     public bool autoDrop = false;
     //[HideInInspector]
