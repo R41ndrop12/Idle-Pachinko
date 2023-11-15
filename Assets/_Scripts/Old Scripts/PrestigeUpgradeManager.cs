@@ -91,7 +91,7 @@ public class PrestigeUpgradeManager : MonoBehaviour
         UpdateIncomeBoost?.Invoke();
         incomeBoostCost = 2 * Math.Round(Math.Pow(1.5f, gameData.PrestigeUpgradeCount[1]));
         TextManager.displayValue(incomeBoostCostTxt, incomeBoostCost, "p");
-        TextManager.displayValue(incomeBoostTxt, "+", gameData.PrestigeUpgradeCount[1] * 10, "%");
+        TextManager.displayValue(incomeBoostTxt, "+", 10 + (gameData.PrestigeUpgradeCount[1] * 10 + ((gameData.PrestigeUpgradeCount[1]) * (gameData.PrestigeUpgradeCount[1] + 1) / 2)), "%");
     }
 
     void Plink()

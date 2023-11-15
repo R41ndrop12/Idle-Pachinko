@@ -41,7 +41,7 @@ public class MoneyManager : MonoBehaviour
 
     void UpdateExplanation()
     {
-        pExplanationText.SetText("Your " + TextManager.convertNum(gameData.TotalPrestige) + "p is providing a " + TextManager.convertNum(gameData.TotalPrestige * 10f * (gameData.PrestigeUpgradeCount[1] + 1)) + "% boost to your income!");
+        pExplanationText.SetText("Your " + TextManager.convertNum(gameData.TotalPrestige) + "p is providing a " + TextManager.convertNum(gameData.TotalPrestige * (10 + (gameData.PrestigeUpgradeCount[1] * 10 + ((gameData.PrestigeUpgradeCount[1]) * (gameData.PrestigeUpgradeCount[1] + 1) / 2)))) + "% boost to your income!");
     }
 
     private void Add(double m)

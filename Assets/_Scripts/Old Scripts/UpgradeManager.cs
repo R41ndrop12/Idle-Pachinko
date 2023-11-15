@@ -113,7 +113,9 @@ public class UpgradeManager : MonoBehaviour
             }
         }
         ball.multiplier = (1 + gameData.BallMultiplierCount[ballNum]/10f) * (basicMultiplier + 1) * Mathf.Pow(1.5f, intermediateMultiplier);
-        ball.money = ball.baseMoney * (1 + gameData.TotalPrestige * (1 + gameData.PrestigeUpgradeCount[1]) / 10f);
+        //prestige boost = n + (n)(n+1)/20 | 2 + (2)(3)/20 =  2.3
+        float prestigeBoost = gameData.PrestigeUpgradeCount[1] + ((gameData.PrestigeUpgradeCount[1] - 1f) * (gameData.PrestigeUpgradeCount[1]) / 20f);
+        ball.money = ball.baseMoney * (1 + gameData.TotalPrestige * (1 + prestigeBoost) / 10f);
         TextManager.displayValue(multCostText, "$", ball.multiplierCost);
         TextManager.displayValue(ballDollarAmountText, "$", ball.multiplier * ball.money, " / " + TextManager.convertNum(ball.baseCooldown * (1f - (gameData.PrestigeUpgradeCount[0]/10f))) + "s");
         multCountText.SetText(TextManager.convertNum(gameData.BallMultiplierCount[ballNum]) + " / " + TextManager.convertNum((basicMultiplier + 1) * 10));

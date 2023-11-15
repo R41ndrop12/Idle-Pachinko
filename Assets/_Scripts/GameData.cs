@@ -58,6 +58,7 @@ public class GameData : MonoBehaviour
     public void Delete()
     {
         _data = _dataNew;
+        loadGame?.Invoke();
     }
 
     private string Encode(string data)
@@ -74,8 +75,13 @@ public class GameData : MonoBehaviour
         return decodedText;
     }
 
-    private Data Compare(Data data, Data temp)
+    private void Compare(Data data, Data temp)
     {
+        data.Money = temp.Money;
+        data.RunMoney = temp.RunMoney;
+        data.LifetimeMoney = temp.LifetimeMoney;
+        data.NextPrestige = temp.NextPrestige;
+        data.TotalPrestige = temp.TotalPrestige;
         if(data.BallMultiplierCount.Length != temp.BallMultiplierCount.Length)
         {
             for (int i = 0; i < temp.BallMultiplierCount.Length; i++)
@@ -83,6 +89,11 @@ public class GameData : MonoBehaviour
                 data.BallMultiplierCount[i] = temp.BallMultiplierCount[i];
             }
         }
+        else
+        {
+            data.BallMultiplierCount = temp.BallMultiplierCount;
+        }
+
         if(data.PrestigeUpgradeCount.Length != temp.PrestigeUpgradeCount.Length)
         {
             for (int i = 0; i < temp.PrestigeUpgradeCount.Length; i++)
@@ -90,14 +101,10 @@ public class GameData : MonoBehaviour
                 data.PrestigeUpgradeCount[i] = temp.PrestigeUpgradeCount[i];
             }
         }
-        if(data.BallDataList.Count != temp.BallDataList.Count)
+        else
         {
-            for(int i = 0; i < temp.BallDataList.Count; i++)
-            {
-                data.BallDataList[i] = temp.BallDataList[i];
-            }
+            data.PrestigeUpgradeCount = temp.PrestigeUpgradeCount;
         }
-        return data;
     }
 
 }
