@@ -80,30 +80,16 @@ public class GameData : MonoBehaviour
         data.Money = temp.Money;
         data.RunMoney = temp.RunMoney;
         data.LifetimeMoney = temp.LifetimeMoney;
-        data.NextPrestige = temp.NextPrestige;
-        data.TotalPrestige = temp.TotalPrestige;
-        if(data.BallMultiplierCount.Length != temp.BallMultiplierCount.Length)
+        if(data.balls.Count != temp.balls.Count)
         {
-            for (int i = 0; i < temp.BallMultiplierCount.Length; i++)
+            for (int i = 0; i < temp.balls.Count; i++)
             {
-                data.BallMultiplierCount[i] = temp.BallMultiplierCount[i];
+                data.balls[i] = temp.balls[i];
             }
         }
         else
         {
-            data.BallMultiplierCount = temp.BallMultiplierCount;
-        }
-
-        if(data.PrestigeUpgradeCount.Length != temp.PrestigeUpgradeCount.Length)
-        {
-            for (int i = 0; i < temp.PrestigeUpgradeCount.Length; i++)
-            {
-                data.PrestigeUpgradeCount[i] = temp.PrestigeUpgradeCount[i];
-            }
-        }
-        else
-        {
-            data.PrestigeUpgradeCount = temp.PrestigeUpgradeCount;
+            data.balls = temp.balls;
         }
     }
 
@@ -116,11 +102,17 @@ public class Data
     public double Money;
     public double RunMoney;
     public double LifetimeMoney;
-    public double NextPrestige;
-    public double TotalPrestige;
-    //Bonus multiplier allows us to better balance the incremental game
-    //https://www.gamedeveloper.com/design/the-math-of-idle-games-part-i
-    public int[] BallMultiplierCount;
-    public int[] PrestigeUpgradeCount;
-    public List<Ball> BallDataList = new();    
+
+    public List<BallData> balls = new List<BallData>();    
 }
+ 
+
+[System.Serializable]
+public class BallData
+{
+    public double money;
+    public Transform spawnPoint;
+    public float spawnLimit;
+    public GameObject ball;
+}
+
