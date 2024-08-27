@@ -5,13 +5,10 @@ using UnityEngine.Playables;
 
 public class MenuManager : MonoBehaviour
 {
-    public GameObject[] hide;
-    public GameObject[] show;
-
-    private void Start()
-    {
-        
-    }
+    [SerializeField]
+    private GameObject[] hide;
+    [SerializeField]
+    private GameObject[] show;
 
     public void Switch()
     {
